@@ -1,0 +1,351 @@
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 26
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++-------------------------------+
+| Database                      |
++-------------------------------+
+| cricketleaguemanagementsystem |
+| information_schema            |
+| lab1                          |
+| mysql                         |
+| performance_schema            |
+| sys                           |
++-------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> use lab1;
+Database changed
+mysql> create table coach(coach_id int primary key,coach_name varchar(25),team_id int ,dob date,role varchar(30));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe coach
+    -> ^C
+mysql> describe coach;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| coach_id   | int         | NO   | PRI | NULL    |       |
+| coach_name | varchar(25) | YES  |     | NULL    |       |
+| team_id    | int         | YES  |     | NULL    |       |
+| dob        | date        | YES  |     | NULL    |       |
+| role       | varchar(30) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> create table team(team_id int primary key ,team_name varchar(20),captain varchar(20),stadium_id int ,years_of_win int );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> describe team
+    -> ^C
+mysql> describe team;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| team_id      | int         | NO   | PRI | NULL    |       |
+| team_name    | varchar(20) | YES  |     | NULL    |       |
+| captain      | varchar(20) | YES  |     | NULL    |       |
+| stadium_id   | int         | YES  |     | NULL    |       |
+| years_of_win | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table coach add foreign key(team_id)references team (team_id);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe coach;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| coach_id   | int         | NO   | PRI | NULL    |       |
+| coach_name | varchar(25) | YES  |     | NULL    |       |
+| team_id    | int         | YES  | MUL | NULL    |       |
+| dob        | date        | YES  |     | NULL    |       |
+| role       | varchar(30) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table stadium (location varchar(20) ,team_id int,capacity int ,stadium_id int primary key);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe stadium
+    -> ^C
+mysql> describe stadium;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| location   | varchar(20) | YES  |     | NULL    |       |
+| team_id    | int         | YES  |     | NULL    |       |
+| capacity   | int         | YES  |     | NULL    |       |
+| stadium_id | int         | NO   | PRI | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_lab1 |
++----------------+
+| coach          |
+| stadium        |
+| team           |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table team add foreign key (stadium_id)references stadium(stadium_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe stadium;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| location   | varchar(20) | YES  |     | NULL    |       |
+| team_id    | int         | YES  |     | NULL    |       |
+| capacity   | int         | YES  |     | NULL    |       |
+| stadium_id | int         | NO   | PRI | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> describe team;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| team_id      | int         | NO   | PRI | NULL    |       |
+| team_name    | varchar(20) | YES  |     | NULL    |       |
+| captain      | varchar(20) | YES  |     | NULL    |       |
+| stadium_id   | int         | YES  | MUL | NULL    |       |
+| years_of_win | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> describe stadium;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| location   | varchar(20) | YES  |     | NULL    |       |
+| team_id    | int         | YES  |     | NULL    |       |
+| capacity   | int         | YES  |     | NULL    |       |
+| stadium_id | int         | NO   | PRI | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table stadium add foreign key (team_id)references team(team_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe stadium;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| location   | varchar(20) | YES  |     | NULL    |       |
+| team_id    | int         | YES  | MUL | NULL    |       |
+| capacity   | int         | YES  |     | NULL    |       |
+| stadium_id | int         | NO   | PRI | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table player(player_id int primary key,player_name varchar(30),team_id int ,country char(30),dob date,role varchar(30^C
+mysql>  create table player(player_id int primary key,player_name varchar(30),team_id int ,country char(30),dob date,role varchar(30));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe player;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| player_id   | int         | NO   | PRI | NULL    |       |
+| player_name | varchar(30) | YES  |     | NULL    |       |
+| team_id     | int         | YES  |     | NULL    |       |
+| country     | char(30)    | YES  |     | NULL    |       |
+| dob         | date        | YES  |     | NULL    |       |
+| role        | varchar(30) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table player add foreign key (team_id)references team(team_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe player;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| player_id   | int         | NO   | PRI | NULL    |       |
+| player_name | varchar(30) | YES  |     | NULL    |       |
+| team_id     | int         | YES  | MUL | NULL    |       |
+| country     | char(30)    | YES  |     | NULL    |       |
+| dob         | date        | YES  |     | NULL    |       |
+| role        | varchar(30) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql>  create table ranking(role varchar(40) primary key , rank int primary key,player_id int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'rank int primary key,player_id int)' at line 1
+mysql>  create table ranking(role varchar(40)  , rank int,player_id int,constraint pk_ranking primary key(role,rank));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'rank int,player_id int,constraint pk_ranking primary key(role,rank))' at line 1
+mysql>  create table ranking(e_role varchar(40)  , e_rank int,player_id int,constraint pk_ranking primary key(e_role,e_rank));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> describe ranking;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| e_role    | varchar(40) | NO   | PRI | NULL    |       |
+| e_rank    | int         | NO   | PRI | NULL    |       |
+| player_id | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table ranking add foreign key (player_id)references player(player_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe ranking;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| e_role    | varchar(40) | NO   | PRI | NULL    |       |
+| e_rank    | int         | NO   | PRI | NULL    |       |
+| player_id | int         | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> create table points_table(team_id int primary key,team_name varchar(20),total_matches int ,win int,loss int,draw int,points int );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table points_table add foreign key (team_id)references team(team_id);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe points_table;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| team_id       | int         | NO   | PRI | NULL    |       |
+| team_name     | varchar(20) | YES  |     | NULL    |       |
+| total_matches | int         | YES  |     | NULL    |       |
+| win           | int         | YES  |     | NULL    |       |
+| loss          | int         | YES  |     | NULL    |       |
+| draw          | int         | YES  |     | NULL    |       |
+| points        | int         | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> show tables
+    -> ^C
+mysql> show tables;
++----------------+
+| Tables_in_lab1 |
++----------------+
+| coach          |
+| player         |
+| points_table   |
+| ranking        |
+| stadium        |
+| team           |
++----------------+
+6 rows in set (0.00 sec)
+
+mysql> create table matches(match_id int primary key,team_id1 int ,team_id2 int ,date date,stadium_id int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table matches add foreign key (stadium_id)references stadium(stadium_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc matches;
++------------+------+------+-----+---------+-------+
+| Field      | Type | Null | Key | Default | Extra |
++------------+------+------+-----+---------+-------+
+| match_id   | int  | NO   | PRI | NULL    |       |
+| team_id1   | int  | YES  |     | NULL    |       |
+| team_id2   | int  | YES  |     | NULL    |       |
+| date       | date | YES  |     | NULL    |       |
+| stadium_id | int  | YES  | MUL | NULL    |       |
++------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table played_in (match_id int primary key,stadium_id int ,location varchar(40));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table played_in add foreign key (match_id)references matches(match_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table played_in add foreign key (stadium_id)references stadium(stadium_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc played_in;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| match_id   | int         | NO   | PRI | NULL    |       |
+| stadium_id | int         | YES  | MUL | NULL    |       |
+| location   | varchar(40) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> create table ticket(match_id int ,block_name varchar(30),seat_no int ,stadium_id int,price int ,constraint pk_ticket primary key(match_id,block_name,seat_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc ticket;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| match_id   | int         | NO   | PRI | NULL    |       |
+| block_name | varchar(30) | NO   | PRI | NULL    |       |
+| seat_no    | int         | NO   | PRI | NULL    |       |
+| stadium_id | int         | YES  |     | NULL    |       |
+| price      | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table ticket add foreign key (stadium_id)references stadium(stadium_id);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table ticket add foreign key (match_id)references matches(match_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc ticket;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| match_id   | int         | NO   | PRI | NULL    |       |
+| block_name | varchar(30) | NO   | PRI | NULL    |       |
+| seat_no    | int         | NO   | PRI | NULL    |       |
+| stadium_id | int         | YES  | MUL | NULL    |       |
+| price      | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table umpire(umpire_id int primary key,umpire_name varchar(20),type varchar(10),country varchar(20),match_id int);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> alter table umpire add foreign key (match_id)references matches(match_id);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc umpire;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| umpire_id   | int         | NO   | PRI | NULL    |       |
+| umpire_name | varchar(20) | YES  |     | NULL    |       |
+| type        | varchar(10) | YES  |     | NULL    |       |
+| country     | varchar(20) | YES  |     | NULL    |       |
+| match_id    | int         | YES  | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
